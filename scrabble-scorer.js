@@ -40,9 +40,9 @@ word=word.toUpperCase();
 function initialPrompt() {
    userWord=input.question("\n\nLet's play some scrabble!\n\nEnter a word:");
    //console.log(oldScrabbleScorer(userWord));
-  
+  return userWord;
 }
-console.log(initialPrompt());
+//console.log(initialPrompt());
 
 function simpleScore(word) {
 return word.length;
@@ -67,18 +67,18 @@ function vowelBonusScore(word) {
 
 let simpleScoreMethod={name:"Simple Score",
      description: "Each letter is worth 1 point",
-     scorerFunction: "simpleScore()"};
+     scorerFunction:simpleScore};
 
 let vowelBonusScoreMethod={name:"Bonus Vowels",
      description: "Vowels are 3 pts. Consonants are 1 pt.",
-     scorerFunction: "vowelBonusScore()"};
+     scorerFunction:vowelBonusScore};
 
-let oldScrabbleScorerMethod={name:"Scrabble",
+let scrabbleScoreMethod={name:"Scrabble",
      description: "the traditional scrabble scoring method",
-     scorerFunction: "oldScrabbleScorer()"};
+     scorerFunction:scrabbleScore};
 
 
-const scoringAlgorithms = [simpleScoreMethod,vowelBonusScoreMethod,oldScrabbleScorerMethod];
+const scoringAlgorithms = [simpleScoreMethod,vowelBonusScoreMethod,scrabbleScoreMethod];
 
 let scrabbleScore=0;
 
@@ -93,25 +93,98 @@ console.log(`Which scoring algorithm would you like to use?
 
   scoringChoice=input.question("Enter 0, 1, or 2: ");
      
-if (scoringChoice===0){simpleScore('userWord');} else if (scoringChoice===1){vowelBonusScore('userword');} else if (scoringChoice===2){oldScrabbleScorer('userword');}
+//if (scoringChoice===0){simpleScore('userWord');} else if (scoringChoice===1){vowelBonusScore('userword');} else if (scoringChoice===2){oldScrabbleScorer('userword');}
 
-if (scoringChoice===0){scrabbleScore=simpleScore('userword');} else if (scoringChoice===1){scrabbleScore=vowelBonusScore('userword');} else if (scoringChoice===2){scrabbleScore=oldScrabbleScorerMethod('userword');} 
+if (scoringChoice===0){scrabbleScore=simpleScore('userword');} else if (scoringChoice===1){scrabbleScore=vowelBonusScore('userword');} else if (scoringChoice===2){scrabbleScore=scrabbleScoreMethod('userword');} 
 
 
-   console.log(`Score for '${userWord}': ${scrabbleScore}`);
+   console.log(`Score for '${userword}':${scoringAlgorithms[scoringChoice].scorerFunction(userWord)}');
 
 
 }
 
-console.log(scorerPrompt());
-function transform() {};
+//console.log(scorerPrompt());
+function transform() {
 
-let newPointStructure;
+let newPointStructure={};
+
+for (let key in oldPointStructure){
+   newPointStructure[oldPointStructure[key]] = key;
+}
+
+return newPointStructure;
+} 
+
+let newPointStructure=transform(oldPointStructure);
+
+newPointStructure["a"]=newPointStructure["A,E,I,O,U,L,N,R,S,T"];
+delete newPointStructure["A,E,I,O,U,L,N,R,S,T"];
+newPointStructure["a"]=1;
+newPointStructure["e"]=1;
+newPointStructure["i"]=1;
+newPointStructure["o"]=1;
+newPointStructure["u"]=1;
+newPointStructure["l"]=1;
+newPointStructure["n"]=1;
+newPointStructure["r"]=1;
+newPointStructure["s"]=1;
+newPointStructure["t"]=1;
+newPointStructure["d"]=newPointStructure["D,G"];
+delete newPointStructure["D,G"];
+newPointStructure["d"]=2;
+newPointStructure["g"]=2;
+newPointStructure["b"]=newPointStructure["B,C,M,P"];
+delete newPointStructure["B,C,M,P"];
+newPointStructure["b"]=3;
+newPointStructure["c"]=3;
+newPointStructure["m"]=3;
+newPointStructure["p"]=3;
+newPointStructure["f"]=newPointStructure["F,H,V,W,Y"];
+delete newPointStructure["F,H,V,W,Y"];
+newPointStructure["f"]=4;
+newPointStructure["h"]=4;
+newPointStructure["v"]=4;
+newPointStructure["w"]=4;
+newPointStructure["y"]=4;
+newPointStructure["k"]=newPointStructure["K"];
+delete newPointStructure["K"];
+newPointStructure["k"]=5;
+newPointStructure["j"]=newPointStructure["J,X"];
+delete newPointStructure["J,X"];
+newPointStructure["j"]=8;
+newPointStructure["x"]=8;
+newPointStructure["q"]=newPointStructure["Q,Z"];
+delete newPointStructure["Q,Z"];
+newPointStructure["q"]=10;
+newPointStructure["z"]=10;
+
+
+
+function scrabbleScore(){
+
+word=word.toLowerCase();
+
+  let score = 0;
+ 
+  for (let i = 0; i < word.length; i++) {
+ 
+    for (const letterValue in newPointStructure) {
+ 
+     if (newPointStructure[letterValue].includes(word[i])) {
+      score += newPointStructure[letterValue];
+     }
+ 
+    }
+  }
+  return score;
+ }
+
 
 function runProgram() {
    initialPrompt();
-   //oldScrabbleScorer(input.question);
+   scorerPrompt();
    //scorerPrompt();
+   scrabbleScore();
 }
 
 // Don't write any code below this line //
