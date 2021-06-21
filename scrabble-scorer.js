@@ -98,7 +98,7 @@ console.log(`Which scoring algorithm would you like to use?
 //if (scoringChoice===0){scrabbleScore=simpleScore('userword');} else if (scoringChoice===1){scrabbleScore=vowelBonusScore('userword');} else if (scoringChoice===2){scrabbleScore=scrabbleScoreMethod('userword');} 
 
 
-   console.log(`Score for '${userword}':${scoringAlgorithms[scoringChoice].scorerFunction(userWord,newPointStructure)}');
+console.log(`Score for '${userWord}': ${scoringAlgorithms[scoringChoice].scorerFunction(userWord, newPointStructure)}`);
 
 
 }
@@ -160,14 +160,14 @@ newPointStructure["z"]=10;
 
 
 
-function scrabbleScore(word, pointStructure){
+function scrabbleScore(word,pointStructure){
 
 word=word.toLowerCase();
 
   let score = 0;
  
   for (let i = 0; i < word.length; i++) {
-     score+=pointStructure[word[i]];
+     score += pointStructure[word[i]];
     
   }
   return score;
@@ -177,7 +177,7 @@ word=word.toLowerCase();
 function runProgram() {
    initialPrompt();
    scorerPrompt();
-   scrabbleScore();
+   transform(oldPointStructure);
 }
 
 // Don't write any code below this line //
