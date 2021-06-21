@@ -80,7 +80,7 @@ let scrabbleScoreMethod={name:"Scrabble",
 
 const scoringAlgorithms = [simpleScoreMethod,vowelBonusScoreMethod,scrabbleScoreMethod];
 
-let scrabbleScore=0;
+//let scrabbleScore=0;
 
 function scorerPrompt() {
       
@@ -95,10 +95,10 @@ console.log(`Which scoring algorithm would you like to use?
      
 //if (scoringChoice===0){simpleScore('userWord');} else if (scoringChoice===1){vowelBonusScore('userword');} else if (scoringChoice===2){oldScrabbleScorer('userword');}
 
-if (scoringChoice===0){scrabbleScore=simpleScore('userword');} else if (scoringChoice===1){scrabbleScore=vowelBonusScore('userword');} else if (scoringChoice===2){scrabbleScore=scrabbleScoreMethod('userword');} 
+//if (scoringChoice===0){scrabbleScore=simpleScore('userword');} else if (scoringChoice===1){scrabbleScore=vowelBonusScore('userword');} else if (scoringChoice===2){scrabbleScore=scrabbleScoreMethod('userword');} 
 
 
-   console.log(`Score for '${userword}':${scoringAlgorithms[scoringChoice].scorerFunction(userWord)}');
+   console.log(`Score for '${userword}':${scoringAlgorithms[scoringChoice].scorerFunction(userWord,newPointStructure)}');
 
 
 }
@@ -160,21 +160,15 @@ newPointStructure["z"]=10;
 
 
 
-function scrabbleScore(){
+function scrabbleScore(word, pointStructure){
 
 word=word.toLowerCase();
 
   let score = 0;
  
   for (let i = 0; i < word.length; i++) {
- 
-    for (const letterValue in newPointStructure) {
- 
-     if (newPointStructure[letterValue].includes(word[i])) {
-      score += newPointStructure[letterValue];
-     }
- 
-    }
+     score+=pointStructure[word[i]];
+    
   }
   return score;
  }
@@ -183,14 +177,13 @@ word=word.toLowerCase();
 function runProgram() {
    initialPrompt();
    scorerPrompt();
-   //scorerPrompt();
    scrabbleScore();
 }
 
 // Don't write any code below this line //
 // And don't change these or your program will not run as expected //
 module.exports = {
-   initialPrompt: initialPrompt,
+   //initialPrompt: initialPrompt,
    transform: transform,
    oldPointStructure: oldPointStructure,
    simpleScore: simpleScore,
@@ -201,4 +194,3 @@ module.exports = {
 	runProgram: runProgram,
 	scorerPrompt: scorerPrompt
 };
-
