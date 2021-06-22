@@ -160,7 +160,7 @@ newPointStructure["z"]=10;
 
 
 
-function scrabbleScore(word,pointStructure){
+function scrabbleScore(word, pointStructure){
 
 word=word.toLowerCase();
 
